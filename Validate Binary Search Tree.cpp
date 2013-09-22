@@ -7,28 +7,21 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+bool dfs(TreeNode *root, int min, int max) {
+    if (root) {
+        if (root -> val <= min || root -> val >= max) {
+            return false;
+        }
+        return dfs(root -> left, min, root -> val) && dfs(root -> right, root -> val, max);
+    }
+    return true;
+}
+ 
 class Solution {
 public:
-    vector <int> x;
-    void dfs(TreeNode *rt) {
-        if (rt == NULL) {
-            return;
-        }
-        dfs(rt -> left);
-        x.push_back(rt -> val);
-        dfs(rt -> right);
-    }
-    
     bool isValidBST(TreeNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        x.clear();
-        dfs(root);
-        for (int i = 1; i < x.size(); ++i) {
-            if (x[i] <= x[i - 1]) {
-                return false;
-            }
-        }
-        return true;
+        return dfs(root, INT_MIN, INT_MAX);
     }
 };
